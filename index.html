@@ -279,6 +279,12 @@
             const wemail = document.getElementById('wemail').value;
             const message = document.getElementById('message').value;
 
+            // Check if only name fields or message are filled without email
+            if ((fname || lname || message) && !wemail) {
+                alert("Email tidak boleh kosong jika hanya nama atau pesan yang diisi.");
+                return; // Stop the submission
+            }
+
             // Create an object to hold the updated values
             const updatedParams = {
                 fname: fname || getQueryParams().fname,
