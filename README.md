@@ -10,9 +10,9 @@
 
   
   
-<h2>🧐 Features</h2>
+<h2>🧐 Fitur</h2>
 
-Here're some of the project's best features:
+Ini dia fitur yang disediakan di Website PPLG Ini:
 
 *   Informasi Tentang PPLG
 *   Pengajar-Pengajar PPLG
