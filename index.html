@@ -10,6 +10,11 @@
         @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
     </style>
 </head>
+<script>
+    if (window.location.pathname === '/index.html') {
+        window.location.replace('/');
+    }
+</script>
 <body>
     <header>
         <div id="top"></div>
@@ -270,54 +275,66 @@
             document.getElementById('message').value = message;
         };
 
-                function submitForm(event) {
-            event.preventDefault(); // Prevent the default form submission
+            function submitForm(event) {
+        event.preventDefault(); // Prevent the default form submission
 
-            // Get values from the input fields
-            const fname = document.getElementById('fname').value;
-            const lname = document.getElementById('lname').value;
-            const wemail = document.getElementById('wemail').value;
-            const message = document.getElementById('message').value;
+        // Get values from the input fields
+        const fname = document.getElementById('fname').value;
+        const lname = document.getElementById('lname').value;
+        const wemail = document.getElementById('wemail').value;
+        const message = document.getElementById('message').value;
 
-            // Check if all fields are empty
-            if (!fname && !lname && !wemail && !message) {
-                alert("Semua kotak tidak boleh kosong.");
-                return; // Stop the submission
-            }
-
-            // Check if only name fields or message are filled without email
-            if ((fname || lname || message) && !wemail) {
-                alert("Email tidak boleh kosong jika hanya nama atau pesan yang diisi.");
-                return; // Stop the submission
-            }
-
-            // Create an object to hold the updated values
-            const updatedParams = {
-                fname: fname || getQueryParams().fname,
-                lname: lname || getQueryParams().lname,
-                wemail: wemail || getQueryParams().wemail,
-                message: message || getQueryParams().message
-            };
-
-            // Build the query string
-            const queryString = Object.keys(updatedParams)
-                .filter(key => updatedParams[key]) // Only include non-empty values
-                .map(key => `${key}=${encodeURIComponent(updatedParams[key])}`)
-                .join('&');
-
-            // Update the URL without refreshing the page
-            const newUrl = `/?${queryString}`;
-            history.pushState(null, '', newUrl);
-
-            // Clear all fields after submission
-            document.getElementById('fname').value = '';
-            document.getElementById('lname').value = '';
-            document.getElementById('wemail').value = '';
-            document.getElementById('message').value = '';
-
-            // Optionally, provide feedback to the user
-            alert("Terima kasih sudah mengirim pesan!, kita akan Improve website nya dengan lebih baik lagi :D");
+        // Check if all fields are empty
+        if (!fname && !lname && !wemail && !message) {
+            alert("Semua kotak tidak boleh kosong.");
+            return; // Stop the submission
         }
+
+        // Check specific conditions for email
+        if (wemail) {
+            if ((fname && lname) || (fname && message) || (lname && message)) {
+                alert("Jika email diisi, hanya satu dari nama atau pesan yang boleh diisi.");
+                return; // Stop the submission
+            }
+            if ((fname && lname) || (message && lname)) {
+                alert("Email tidak boleh diisi jika First Name dan Last Name diisi.");
+                return; // Stop the submission
+            }
+        }
+
+        // Check if only name fields or message are filled without email
+        if ((fname || lname || message) && !wemail) {
+            alert("Email tidak boleh kosong jika hanya nama atau pesan yang diisi.");
+            return; // Stop the submission
+        }
+
+        // Create an object to hold the updated values
+        const updatedParams = {
+            fname: fname || getQueryParams().fname,
+            lname: lname || getQueryParams().lname,
+            wemail: wemail || getQueryParams().wemail,
+            message: message || getQueryParams().message
+        };
+
+        // Build the query string
+        const queryString = Object.keys(updatedParams)
+            .filter(key => updatedParams[key]) // Only include non-empty values
+            .map(key => `${key}=${encodeURIComponent(updatedParams[key])}`)
+            .join('&');
+
+        // Update the URL without refreshing the page
+        const newUrl = `/?${queryString}`;
+        history.pushState(null, '', newUrl);
+
+        // Clear all fields after submission
+        document.getElementById('fname').value = '';
+        document.getElementById('lname').value = '';
+        document.getElementById('wemail').value = '';
+        document.getElementById('message').value = '';
+
+        // Optionally, provide feedback to the user
+        alert("Terima kasih sudah mengirim pesan!, kita akan Improve website nya dengan lebih baik lagi :D");
+    }
         </script>
         <div id="social-media">
             <h1 class="judul-sosmed">Follow us!</h1>
