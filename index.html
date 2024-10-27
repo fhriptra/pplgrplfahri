@@ -10,11 +10,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
     </style>
 </head>
-<script>
-    if (window.location.pathname === '/index.html') {
-        window.location.replace('/');
-    }
-</script>
 <body>
     <header>
         <div id="top"></div>
@@ -255,79 +250,63 @@
             </form>
         </div>
         <script>
-                    // Function to get current URL parameters
-        function getQueryParams() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                fname: params.get('fname') || '',
-                lname: params.get('lname') || '',
-                wemail: params.get('wemail') || '',
-                message: params.get('message') || ''
-            };
-        }
+// Function to get current URL parameters
+function getQueryParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+        fname: params.get('fname') || '',
+        lname: params.get('lname') || '',
+        wemail: params.get('wemail') || '',
+        message: params.get('message') || ''
+    };
+}
 
-        // Load existing values into input fields
-        window.onload = function() {
-            const { fname, lname, wemail, message } = getQueryParams();
-            document.getElementById('fname').value = fname;
-            document.getElementById('lname').value = lname;
-            document.getElementById('wemail').value = wemail;
-            document.getElementById('message').value = message;
-        };
+// Load existing values into input fields
+window.onload = function() {
+    const { fname, lname, wemail, message } = getQueryParams();
+    document.getElementById('fname').value = fname;
+    document.getElementById('lname').value = lname;
+    document.getElementById('wemail').value = wemail;
+    document.getElementById('message').value = message;
+};
 
-            function submitForm(event) {
-        event.preventDefault(); // Prevent the default form submission
+function submitForm(event) {
+    event.preventDefault(); // Prevent the default form submission
 
-        // Get values from the input fields
-        const fname = document.getElementById('fname').value;
-        const lname = document.getElementById('lname').value;
-        const wemail = document.getElementById('wemail').value;
-        const message = document.getElementById('message').value;
+    // Get values from the input fields
+    const fname = document.getElementById('fname').value.trim();
+    const lname = document.getElementById('lname').value.trim();
+    const wemail = document.getElementById('wemail').value.trim();
+    const message = document.getElementById('message').value.trim();
 
-        // Check if all fields are empty
-        if (!fname && !lname && !wemail && !message) {
-            alert("Semua kotak tidak boleh kosong.");
-            return; // Stop the submission
-        }
+    // Validate that both First Name and Last Name are filled
+    if (!fname || !lname) {
+        alert("First Name dan Last Name harus diisi.");
+        return; // Stop the submission
+    }
 
-        // Check specific conditions for email
-        if (wemail) {
-            if ((fname && lname) || (fname && message) || (lname && message)) {
-                alert("Jika email diisi, hanya satu dari nama atau pesan yang boleh diisi.");
-                return; // Stop the submission
-            }
-            if ((fname && lname) || (message && lname)) {
-                alert("Email tidak boleh diisi jika First Name dan Last Name diisi.");
-                return; // Stop the submission
-            }
-        }
+    // Check if Message or Email is filled
+    const hasMessage = message.length > 0;
+    const hasEmail = wemail.length > 0;
 
-        // Check if only name fields or message are filled without email
-        if ((fname || lname || message) && !wemail) {
-            alert("Email tidak boleh kosong jika hanya nama atau pesan yang diisi.");
-            return; // Stop the submission
-        }
+    // Form can be submitted only if Message or Email is filled
+    if (!hasMessage && !hasEmail) {
+        alert("Harap isi Message atau Email.");
+        return; // Stop the submission
+    }
 
-        // Simpan data di localStorage
-        localStorage.setItem('formData', JSON.stringify({ fname, lname, wemail, message }));
+    // Clear all fields after submission
+    document.getElementById('fname').value = '';
+    document.getElementById('lname').value = '';
+    document.getElementById('wemail').value = '';
+    document.getElementById('message').value = '';
 
-        // Clear all fields after submission
-        document.getElementById('fname').value = '';
-        document.getElementById('lname').value = '';
-        document.getElementById('wemail').value = '';
-        document.getElementById('message').value = '';
+    // Update the URL without refreshing the page and without query parameters
+    history.replaceState(null, '', window.location.pathname);
 
-        alert("Terima kasih sudah mengirim pesan!, kita akan Improve website nya dengan lebih baik lagi :D");
-        }
-
-        // Load existing values from localStorage
-        window.onload = function() {
-        const data = JSON.parse(localStorage.getItem('formData')) || {};
-        document.getElementById('fname').value = data.fname || '';
-        document.getElementById('lname').value = data.lname || '';
-        document.getElementById('wemail').value = data.wemail || '';
-        document.getElementById('message').value = data.message || '';
-        };
+    // Optionally, provide feedback to the user
+    alert("Terima kasih sudah mengirim pesan! Kami akan memperbaiki website ini dengan lebih baik lagi :D");
+}
         </script>
         <div id="social-media">
             <h1 class="judul-sosmed">Follow us!</h1>
