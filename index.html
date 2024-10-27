@@ -279,6 +279,12 @@
             const wemail = document.getElementById('wemail').value;
             const message = document.getElementById('message').value;
 
+            // Check if all fields are empty
+            if (!fname && !lname && !wemail && !message) {
+                alert("Semua kotak tidak boleh kosong.");
+                return; // Stop the submission
+            }
+
             // Check if only name fields or message are filled without email
             if ((fname || lname || message) && !wemail) {
                 alert("Email tidak boleh kosong jika hanya nama atau pesan yang diisi.");
@@ -300,7 +306,7 @@
                 .join('&');
 
             // Update the URL without refreshing the page
-            const newUrl = `index.html?${queryString}`;
+            const newUrl = `/?${queryString}`;
             history.pushState(null, '', newUrl);
 
             // Clear all fields after submission
