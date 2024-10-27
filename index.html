@@ -308,23 +308,8 @@
             return; // Stop the submission
         }
 
-        // Create an object to hold the updated values
-        const updatedParams = {
-            fname: fname || getQueryParams().fname,
-            lname: lname || getQueryParams().lname,
-            wemail: wemail || getQueryParams().wemail,
-            message: message || getQueryParams().message
-        };
-
-        // Build the query string
-        const queryString = Object.keys(updatedParams)
-            .filter(key => updatedParams[key]) // Only include non-empty values
-            .map(key => `${key}=${encodeURIComponent(updatedParams[key])}`)
-            .join('&');
-
-        // Update the URL without refreshing the page
-        const newUrl = `/?${queryString}`;
-        history.pushState(null, '', newUrl);
+        // Simpan data di localStorage
+        localStorage.setItem('formData', JSON.stringify({ fname, lname, wemail, message }));
 
         // Clear all fields after submission
         document.getElementById('fname').value = '';
@@ -332,9 +317,17 @@
         document.getElementById('wemail').value = '';
         document.getElementById('message').value = '';
 
-        // Optionally, provide feedback to the user
         alert("Terima kasih sudah mengirim pesan!, kita akan Improve website nya dengan lebih baik lagi :D");
-    }
+        }
+
+        // Load existing values from localStorage
+        window.onload = function() {
+        const data = JSON.parse(localStorage.getItem('formData')) || {};
+        document.getElementById('fname').value = data.fname || '';
+        document.getElementById('lname').value = data.lname || '';
+        document.getElementById('wemail').value = data.wemail || '';
+        document.getElementById('message').value = data.message || '';
+        };
         </script>
         <div id="social-media">
             <h1 class="judul-sosmed">Follow us!</h1>
